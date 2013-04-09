@@ -57,7 +57,7 @@ ActiveAdmin.register City do
 				wd.save
 				_wds = WeatherData.find_all_by_date_and_is_forecast(_wd[:date],true,:order => "computed_on desc")
 				5.upto(_wds.count) do |i|
-					_wds[i].destroy
+					_wds[i].destroy unless _wds[i].nil?
 				end
 			end
 		end
