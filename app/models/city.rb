@@ -1,3 +1,3 @@
 class City < ActiveRecord::Base
-  attr_accessible :code, :name
+  attr_accessible :code, :name, :zipcode, :population, :region
 end

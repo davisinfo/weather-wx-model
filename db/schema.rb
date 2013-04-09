@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403131421) do
+ActiveRecord::Schema.define(:version => 20130409181117) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(:version => 20130403131421) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "zipcode"
+    t.integer  "population"
+    t.string   "region"
   end
 
   create_table "weather_data", :force => true do |t|
@@ -59,8 +61,14 @@ ActiveRecord::Schema.define(:version => 20130403131421) do
     t.integer  "city_id"
     t.integer  "high"
     t.integer  "low"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.date     "computed_on"
+    t.decimal  "hdd",         :precision => 2, :scale => 0
+    t.decimal  "cdd",         :precision => 2, :scale => 0
+    t.decimal  "tdd",         :precision => 2, :scale => 0
+    t.string   "week"
+    t.boolean  "is_forecast"
   end
 
   add_index "weather_data", ["city_id"], :name => "index_weather_data_on_city_id"
