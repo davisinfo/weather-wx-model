@@ -6,9 +6,9 @@ class WeatherData < ActiveRecord::Base
     today = self.date.strftime('%w').to_i
     week_start = nil
     if today < 5 then
-      week_start = Date.strptime("5","%w") - 1.week
+      week_start = self.date - (today + 2).days
     else
-      week_start = Date.strptime("5","%w")
+      week_start = self.date - (today - 5).days
     end
     week_end = week_start + 6.days
 
