@@ -24,6 +24,7 @@ task :update_data => :environment do
       wd.tdd = wd.cdd + wd.hdd
       wd.is_forecast = _wd[:is_forecast]
       wd.save
+      wd.get_week
       _wds = WeatherData.find_all_by_date_and_is_forecast(_wd[:date],true,:order => "computed_on desc")
       5.upto(_wds.count) do |i|
         _wds[i].destroy unless _wds[i].nil?
