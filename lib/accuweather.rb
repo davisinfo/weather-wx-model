@@ -4,6 +4,7 @@ class Accuweather
 		require 'mechanize'
 		m = Mechanize.new
 		city.zipcode ||= '00000'
+    city.zipcode = '00000' if city.zipcode.strip.empty?
 		page = m.get("http://www.accuweather.com/en/us/#{city.name.downcase.gsub(" ","-")}/#{city.zipcode}/#{date.strftime("%B").downcase}-weather/#{city.code}?monyr=#{date.strftime("%m/%d/%Y")}&view=table")
 		data = page.search("table.stats")[0].search("tr")
 		1.upto(data.length-1) do |i|
