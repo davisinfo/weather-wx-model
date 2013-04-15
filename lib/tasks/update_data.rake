@@ -13,13 +13,13 @@ task :update_data => :environment do
       wd.high = _wd[:high]
       wd.low = _wd[:low]
       wd.computed_on = computed_on
-      _avg = (_wd[:high] + _wd[:low]) / 2.00
+      _avg = (_wd[:high]*1.00 + _wd[:low]*1.00) / 2.00
       wd.cdd = 0
       wd.hdd = 0
       if _avg > 65 then
-        wd.cdd = _avg - 65
+        wd.cdd = _avg - 65.00
       else
-        wd.hdd = 65 - _avg
+        wd.hdd = 65.00 - _avg
       end
       wd.tdd = wd.cdd + wd.hdd
       wd.is_forecast = _wd[:is_forecast]

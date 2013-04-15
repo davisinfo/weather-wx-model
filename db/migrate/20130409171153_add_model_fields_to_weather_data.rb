@@ -1,9 +1,9 @@
 class AddModelFieldsToWeatherData < ActiveRecord::Migration
   def up
   	add_column :weather_data, :computed_on, :date
-  	add_column :weather_data, :hdd, :decimal, :precision => 2, :size => 5
-  	add_column :weather_data, :cdd, :decimal, :precision => 2, :size => 5
-  	add_column :weather_data, :tdd, :decimal, :precision => 2, :size => 5
+  	add_column :weather_data, :hdd, :decimal, :precision => 5, :scale => 2
+  	add_column :weather_data, :cdd, :decimal, :precision => 5, :scale => 2
+  	add_column :weather_data, :tdd, :decimal, :precision => 5, :scale => 2
   	add_column :weather_data, :week, :string
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409181117) do
+ActiveRecord::Schema.define(:version => 20130415105656) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -64,9 +64,9 @@ ActiveRecord::Schema.define(:version => 20130409181117) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.date     "computed_on"
-    t.decimal  "hdd",         :precision => 2, :scale => 0
-    t.decimal  "cdd",         :precision => 2, :scale => 0
-    t.decimal  "tdd",         :precision => 2, :scale => 0
+    t.decimal  "hdd",         :precision => 5, :scale => 2
+    t.decimal  "cdd",         :precision => 5, :scale => 2
+    t.decimal  "tdd",         :precision => 5, :scale => 2
     t.string   "week"
     t.boolean  "is_forecast"
   end
