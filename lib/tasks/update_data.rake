@@ -9,7 +9,7 @@ task :update_data => :environment do
     puts "Updating #{city.name}"
     data = aw.get_weather_data(city)
     data.each do |_wd|
-      wd = WeatherData.find_or_create_by_city_id_and_date_and_computed_on(city.id,_wd[:date], computed_on)
+      wd = WeatherData.find_or_create_by_city_id_and_date_and_computed_on_and_is_forecast(city.id,_wd[:date], computed_on,_wd[:is_forecast])
       wd.high = _wd[:high]
       wd.low = _wd[:low]
       wd.computed_on = computed_on
