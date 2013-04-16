@@ -273,9 +273,9 @@ ActiveAdmin.register_page "By week" do
 					th :colspan => 3 do
 						"Real"
 					end
-					# th :colspan => 3 do
-						# "Average"
-					# end
+					th :colspan => 3 do
+						"TOTAL"
+					end
 				end
 				tr do
 					th "TDD"
@@ -296,9 +296,9 @@ ActiveAdmin.register_page "By week" do
 					th "TDD"
 					th "CDD"
 					th "HDD"
-					# th "TDD"
-					# th "CDD"
-					# th "HDD"
+					th "TDD"
+					th "CDD"
+					th "HDD"
 				end
 				total_wdata.each do |_week,_data|
 					first = true
@@ -312,11 +312,17 @@ ActiveAdmin.register_page "By week" do
 						_total_hdd[_i] = 0
 						_count[_i] = 0
 					end
+					_total_tdd[6] = 0
+					_total_cdd[6] = 0
+					_total_hdd[6] = 0
 					_data.each do |_day,_day_data|
 						tr do
+							_day_data[:total][:tdd] = 0
+							_day_data[:total][:cdd] = 0
+							_day_data[:total][:hdd] = 0
 							if first then
-								td :rowspan => _data.size do
-									_week
+								td :rowspan => _data.size+1, :style=> "vertical-align:middle" do
+									h4 b _week
 								end
 							first = false
 							end
@@ -327,19 +333,28 @@ ActiveAdmin.register_page "By week" do
 							_day_data[:forecasts][4] ||= {}
 							0.upto(4) do |_i|
 								if !_day_data[:forecasts][_i][:tdd].nil? then
-									_total_tdd[_i] += _day_data[:forecasts][_i][:tdd]
-									_total_cdd[_i] += _day_data[:forecasts][_i][:cdd]
-									_total_hdd[_i] += _day_data[:forecasts][_i][:hdd]
+									_total_tdd[_i] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+									_total_cdd[_i] += _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
+									_total_hdd[_i] += _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
+									_total_tdd[6] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+									_total_cdd[6] += _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
+									_total_hdd[6] += _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
+									_day_data[:total][:tdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+									_day_data[:total][:cdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+									_day_data[:total][:hdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
 									_count[_i] += 1
 								end
 							end
-							_total_tdd[5] += _day_data[:real][:tdd].to_f
-							_total_cdd[5] += _day_data[:real][:cdd].to_f
-							_total_hdd[5] += _day_data[:real][:hdd].to_f
+							_total_tdd[5] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
+							_total_cdd[5] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
+							_total_hdd[5] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
+							_total_tdd[6] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
+							_total_cdd[6] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
+							_total_hdd[6] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
+							_day_data[:total][:tdd] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
+							_day_data[:total][:cdd] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
+							_day_data[:total][:hdd] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
 							_count[5] += 1
-							_total_tdd[6] += _day_data[:total][:tdd].to_f
-							_total_cdd[6] += _day_data[:total][:cdd].to_f
-							_total_hdd[6] += _day_data[:total][:hdd].to_f
 							_count[6] += 1
 							td _day
 							0.upto(4) do |_i|
@@ -350,19 +365,34 @@ ActiveAdmin.register_page "By week" do
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:tdd]/_day_data[:real][:count], :precision => 2)
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:cdd]/_day_data[:real][:count], :precision => 2)
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:hdd]/_day_data[:real][:count], :precision => 2)
-							# td _day_data[:avg][:tdd]
-							# td _day_data[:avg][:cdd]
-							# td _day_data[:avg][:hdd]
+							td :style=> "background-color:#EEEEEE" do
+								number_with_precision(_day_data[:total][:tdd], :precision => 2)
+							end
+							td :style=> "background-color:#EEEEEE" do
+								number_with_precision(_day_data[:total][:cdd], :precision => 2)
+							end
+							td :style=> "background-color:#EEEEEE" do
+								number_with_precision(_day_data[:total][:hdd], :precision => 2)
+							end
 						end
 					end
-					# tr do
-						# td "Average"
-						# 0.upto(6) do |_i|
-							# td _count[_i]==0? "-" : number_with_precision(_total_tdd[_i] / _count[_i], :precision => 2)
-							# td _count[_i]==0? "-" : number_with_precision(_total_cdd[_i] / _count[_i], :precision => 2)
-							# td _count[_i]==0? "-" : number_with_precision(_total_hdd[_i] / _count[_i], :precision => 2)
-						# end
-					# end
+					tr :style=> "background-color:#EEEEEE" do
+						td b "TOTAL"
+						0.upto(5) do |_i|
+							td _count[_i]==0? "-" : number_with_precision(_total_tdd[_i], :precision => 2)
+							td _count[_i]==0? "-" : number_with_precision(_total_cdd[_i], :precision => 2)
+							td _count[_i]==0? "-" : number_with_precision(_total_hdd[_i], :precision => 2)
+						end
+						td :style=> "background-color:#CCCCCC" do
+							b number_with_precision(_total_tdd[6], :precision => 2)
+						end
+						td :style=> "background-color:#CCCCCC" do
+							b number_with_precision(_total_cdd[6], :precision => 2)
+						end
+						td :style=> "background-color:#CCCCCC" do
+							b number_with_precision(_total_hdd[6], :precision => 2)
+						end
+					end
 				end
 			end
 		# end
