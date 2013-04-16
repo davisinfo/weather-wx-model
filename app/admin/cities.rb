@@ -17,6 +17,7 @@ ActiveAdmin.register City do
 		
 		city = City.find(params[:id])
 		aw = Accuweather.new
+    computed_on = Date.today
 		data = aw.get_weather_data(city)
 	    data.each do |_wd|
 	      wd = WeatherData.find_or_create_by_city_id_and_date_and_computed_on_and_is_forecast(city.id,_wd[:date], computed_on,_wd[:is_forecast])
@@ -35,7 +36,7 @@ ActiveAdmin.register City do
 	      wd.is_forecast = _wd[:is_forecast]
 	      wd.save
 	      wd.get_week
-	      _wds = WeatherData.find_all_by_date_and_is_forecast(_wd[:date],true,:order => "computed_on desc")
+	      _wds = WeatherData.find_all_by_city_id_and_date_and_is_forecast(city.id,_wd[:date],true,:order => "computed_on desc")
 	      5.upto(_wds.count) do |i|
 	        _wds[i].destroy unless _wds[i].nil?
 	      end
@@ -72,7 +73,7 @@ ActiveAdmin.register City do
 		      wd.is_forecast = _wd[:is_forecast]
 		      wd.save
 		      wd.get_week
-		      _wds = WeatherData.find_all_by_date_and_is_forecast(_wd[:date],true,:order => "computed_on desc")
+          _wds = WeatherData.find_all_by_city_id_and_date_and_is_forecast(city.id,_wd[:date],true,:order => "computed_on desc")
 		      5.upto(_wds.count) do |i|
 		        _wds[i].destroy unless _wds[i].nil?
 		      end
