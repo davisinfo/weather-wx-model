@@ -1,0 +1,23 @@
+#!/bin/bash
+
+time=`date +%k`;
+if ["$time" = "0"]; then
+    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+end
+
+if ["$time" = "6"]; then
+    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+end
+
+if ["$time" = "12"]; then
+    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+end
+
+if ["$time" = "18"]; then
+    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+end
+
+if ["$time" = "24"]; then
+    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+end
+
