@@ -2,22 +2,27 @@
 
 time=`date +%k`;
 if ["$time" = "0"]; then
-    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+    cd $OPENSHIFT_REPO_DIR
+    rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 end
 
 if ["$time" = "6"]; then
-    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+    cd $OPENSHIFT_REPO_DIR
+    rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 end
 
 if ["$time" = "12"]; then
-    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+    cd $OPENSHIFT_REPO_DIR
+    rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 end
 
 if ["$time" = "18"]; then
-    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+    cd $OPENSHIFT_REPO_DIR
+    rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 end
 
 if ["$time" = "24"]; then
-    cd $OPENSHIFT_REPO_DIR && rake update_data RAILS_ENV=production
+    cd $OPENSHIFT_REPO_DIR
+    rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 end
 
