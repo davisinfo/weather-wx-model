@@ -5,7 +5,7 @@ ActiveAdmin.register_page "Cities by week" do
 	content do
 		total_wdata = {}
 		City.all.each do |city|
-			dbdata = WeatherData.where(:city_id => city).order("week,date,computed_on")
+			dbdata = WeatherData.where(:city_id => city).order("week,date,updated_at")
 
 			wdata = {}
 			dbdata.each do |_data|

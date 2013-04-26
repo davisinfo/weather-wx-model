@@ -5,7 +5,7 @@ ActiveAdmin.register_page "By week" do
 	content do
 		total_wdata = {}
 		City.all.each do |city|
-			dbdata = WeatherData.where(:city_id => city).order("week,date,computed_on")
+			dbdata = WeatherData.where(:city_id => city).order("week,date,updated_at")
 
 			wdata = {}
 			dbdata.each do |_data|
@@ -316,6 +316,9 @@ ActiveAdmin.register_page "By week" do
 					_total_cdd[6] = 0
 					_total_hdd[6] = 0
 					_data.each do |_day,_day_data|
+            _last_tdd = 0
+            _last_cdd = 0
+            _last_hdd = 0
 						tr do
 							_day_data[:total][:tdd] = 0
 							_day_data[:total][:cdd] = 0
@@ -336,9 +339,9 @@ ActiveAdmin.register_page "By week" do
 									_total_tdd[_i] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
 									_total_cdd[_i] += _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
 									_total_hdd[_i] += _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
-									_total_tdd[6] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
-									_total_cdd[6] += _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
-									_total_hdd[6] += _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
+									#_total_tdd[6] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+									#_total_cdd[6] += _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
+									#_total_hdd[6] += _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
 									_day_data[:total][:tdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
 									_day_data[:total][:cdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
 									_day_data[:total][:hdd] += _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
@@ -348,31 +351,46 @@ ActiveAdmin.register_page "By week" do
 							_total_tdd[5] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
 							_total_cdd[5] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
 							_total_hdd[5] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
-							_total_tdd[6] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
-							_total_cdd[6] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
-							_total_hdd[6] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
+							#_total_tdd[6] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
+							#_total_cdd[6] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
+							#_total_hdd[6] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
 							_day_data[:total][:tdd] += _day_data[:real][:tdd]/_day_data[:real][:count] if _day_data[:real][:tdd]
 							_day_data[:total][:cdd] += _day_data[:real][:cdd]/_day_data[:real][:count] if _day_data[:real][:cdd]
 							_day_data[:total][:hdd] += _day_data[:real][:hdd]/_day_data[:real][:count] if _day_data[:real][:hdd]
 							_count[5] += 1
 							_count[6] += 1
 							td _day
+              _last = nil
 							0.upto(4) do |_i|
 								td _day_data[:forecasts][_i][:tdd].nil? ? "-" : number_with_precision(_day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count], :precision => 2)
 								td _day_data[:forecasts][_i][:tdd].nil? ? "-" : number_with_precision(_day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count], :precision => 2)
 								td _day_data[:forecasts][_i][:tdd].nil? ? "-" : number_with_precision(_day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count], :precision => 2)
+
+                if !_day_data[:forecasts][_i][:tdd].nil? then
+                  _last_tdd = _day_data[:forecasts][_i][:tdd]/_day_data[:forecasts][_i][:count]
+                  _last_cdd = _day_data[:forecasts][_i][:cdd]/_day_data[:forecasts][_i][:count]
+                  _last_hdd = _day_data[:forecasts][_i][:hdd]/_day_data[:forecasts][_i][:count]
+                end
 							end
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:tdd]/_day_data[:real][:count], :precision => 2)
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:cdd]/_day_data[:real][:count], :precision => 2)
 							td _day_data[:real][:tdd].nil? ? "-" : number_with_precision(_day_data[:real][:hdd]/_day_data[:real][:count], :precision => 2)
+              if !_day_data[:real][:tdd].nil? then
+                _last_tdd = _day_data[:real][:tdd]/_day_data[:real][:count]
+                _last_cdd = _day_data[:real][:cdd]/_day_data[:real][:count]
+                _last_hdd = _day_data[:real][:hdd]/_day_data[:real][:count]
+              end
+              _total_tdd[6] += _last_tdd if _last_tdd
+              _total_cdd[6] += _last_cdd if _last_cdd
+              _total_hdd[6] += _last_hdd if _last_hdd
 							td :style=> "background-color:#EEEEEE" do
-								number_with_precision(_day_data[:total][:tdd], :precision => 2)
+								number_with_precision(_last_tdd, :precision => 2)
 							end
 							td :style=> "background-color:#EEEEEE" do
-								number_with_precision(_day_data[:total][:cdd], :precision => 2)
+								number_with_precision(_last_cdd, :precision => 2)
 							end
 							td :style=> "background-color:#EEEEEE" do
-								number_with_precision(_day_data[:total][:hdd], :precision => 2)
+								number_with_precision(_last_hdd, :precision => 2)
 							end
 						end
 					end

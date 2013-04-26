@@ -20,7 +20,11 @@ ActiveAdmin.register City do
     computed_on = Date.today
 		data = aw.get_weather_data(city)
 	    data.each do |_wd|
-	      wd = WeatherData.find_or_create_by_city_id_and_date_and_computed_on_and_is_forecast(city.id,_wd[:date], computed_on,_wd[:is_forecast])
+        if _wd[:is_forecast] then
+          wd = WeatherData.find_or_create_by_city_id_and_date(city.id,_wd[:date])
+        else
+          wd = WeatherData.find_or_create_by_city_id_and_date_and_is_forecast(city.id,_wd[:date],_wd[:is_forecast])
+        end
 	      wd.high = _wd[:high]
 	      wd.low = _wd[:low]
 	      wd.computed_on = computed_on
@@ -49,6 +53,10 @@ ActiveAdmin.register City do
 		link_to "Update data for all", update_all_admin_cities_path
 	end
 	
+	controller do
+		skip_before_filter :authenticate_admin_user!#, :only => :index
+	end
+	
 	collection_action :update_all do
 		require 'accuweather'
 		aw = Accuweather.new
@@ -57,7 +65,11 @@ ActiveAdmin.register City do
 		City.all.each do |city|		
 			data = aw.get_weather_data(city)
 		    data.each do |_wd|
-		      wd = WeatherData.find_or_create_by_city_id_and_date_and_computed_on_and_is_forecast(city.id,_wd[:date], computed_on,_wd[:is_forecast])
+          if _wd[:is_forecast] then
+            wd = WeatherData.find_or_create_by_city_id_and_date(city.id,_wd[:date])
+          else
+            wd = WeatherData.find_or_create_by_city_id_and_date_and_is_forecast(city.id,_wd[:date],_wd[:is_forecast])
+          end
 		      wd.high = _wd[:high]
 		      wd.low = _wd[:low]
 		      wd.computed_on = computed_on
