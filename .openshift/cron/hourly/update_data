@@ -1,28 +1,30 @@
 #!/bin/bash
 
+echo "Update data schedule\n" >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
 time=`date +%k`;
-if ["$time" = "0"]; then
+echo "$time\n" >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
+if [ "$time" -eq "0" ]; then
     cd $OPENSHIFT_REPO_DIR
     rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
-end
+fi
 
-if ["$time" = "6"]; then
+if [ "$time" -eq "6" ]; then
     cd $OPENSHIFT_REPO_DIR
     rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
-end
+fi
 
-if ["$time" = "12"]; then
+if [ "$time" -eq "12" ]; then
     cd $OPENSHIFT_REPO_DIR
     rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
-end
+fi
 
-if ["$time" = "18"]; then
+if [ "$time" -eq "18" ]; then
     cd $OPENSHIFT_REPO_DIR
     rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
-end
+fi
 
-if ["$time" = "24"]; then
+if [ "$time" -eq "24" ]; then
     cd $OPENSHIFT_REPO_DIR
     rake update_data RAILS_ENV=production >> ${OPENSHIFT_RUBY_LOG_DIR}/update_data.log
-end
+fi
 
